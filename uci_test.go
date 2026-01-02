@@ -44,3 +44,17 @@ func (s *UCISuite) TestUCIDepth19(c *C) {
 	// c.Assert(res.BestMove, Equals, "b5c6")
 	c.Assert(len(res.Results), Equals, 19)
 }
+
+func (s *UCISuite) TestSendCommand(c *C) {
+	eng, err := NewEngine("./stockfish")
+	c.Assert(err, IsNil)
+	defer eng.Close()
+
+	// Send UCI command using SendCommand
+	err = eng.SendCommand("uci")
+	c.Assert(err, IsNil)
+
+	// Send isready command
+	err = eng.SendCommand("isready")
+	c.Assert(err, IsNil)
+}

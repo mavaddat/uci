@@ -168,6 +168,16 @@ func (eng *Engine) SetMoves(moves string) error {
 	return err
 }
 
+// SendCommand sends an arbitrary command string to the engine.
+// The command should not include a trailing newline; one will be added automatically.
+func (eng *Engine) SendCommand(cmd string) error {
+	_, err := eng.stdin.WriteString(cmd + "\n")
+	if err != nil {
+		return err
+	}
+	return eng.stdin.Flush()
+}
+
 // Go can use search moves, depth and time to move as filter  for the results being returned.
 // see http://wbec-ridderkerk.nl/html/UCIProtocol.html
 func (eng *Engine) Go(depth int, searchmoves string, movetime int64, resultOpts ...uint) (*Results, error) {
